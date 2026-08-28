@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recipe Archive: Healthy Food Now</title>
+<meta name="description" content="The complete Healthy Food Now recipe archive, free to read, search and print.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Open+Sans:wght@400;600&family=Raleway:wght@600&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<main class="wrap wrap--wide">
+  <header class="archive-head">
+    <a class="back" href="index.html">&larr; Healthy Food Now</a>
+    <img class="logo logo--sm" src="assets/hfn-logo.svg" alt="Healthy Food Now">
+    <h1>Recipe Archive</h1>
+    <p class="lede" id="count">Loading recipes&hellip;</p>
+    <p class="intro">
+      Every recipe our chefs and coaches cooked, tested and shared over the years is here,
+      and it is all yours now. Plant-based, nutrient-dense, and written for real kitchens on
+      ordinary evenings.
+    </p>
+    <p class="intro">No account, no paywall, nothing to sign up for.</p>
+    <p class="intro">Happy cooking, and thank you for having cooked with us.</p>
+  </header>
+
+  <div class="filters" id="filters" hidden>
+    <input id="q" type="search" placeholder="Search names and ingredients" aria-label="Search recipes">
+    <select id="category" aria-label="Filter by category"><option value="">All categories</option></select>
+    <select id="difficulty" aria-label="Filter by difficulty"><option value="">All levels</option></select>
+    <button id="expand-all" type="button" class="btn btn--ghost">Expand all</button>
+    <button id="print" type="button" class="btn btn--primary">Print</button>
+  </div>
+
+  <p id="status" role="status"></p>
+  <div id="grid" class="grid"></div>
+</main>
+<script type="module" src="assets/recipes.js"></script>
+</body>
+</html>
