@@ -282,17 +282,10 @@ h1 {
    2.5in. Lazy inside a hidden body, so it costs nothing until the card is opened. */
 .photo-full {
   display: block;
-  width: 220px;
-  max-width: 100%;
+  width: 100%;
   height: auto;
   border-radius: 4px;
-  margin: 0.25rem 0 1rem;
-  float: right;
-  margin-left: 1.25rem;
-}
-
-@media (max-width: 520px) {
-  .photo-full { float: none; margin-left: 0; width: 100%; }
+  margin: 0;
 }
 
 .recipe__heading { display: flex; flex-direction: column; min-width: 0; }
@@ -303,9 +296,21 @@ h1 {
 
 .recipe__cols {
   display: grid;
-  gap: 1.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.75rem;
+  /* Ingredients and method on the left, photograph and nutrition label on the right. The
+     right column is fixed-ish so the label keeps its shape rather than stretching. */
+  grid-template-columns: minmax(0, 1fr) minmax(200px, 260px);
+  align-items: start;
 }
+
+@media (max-width: 760px) {
+  .recipe__cols { grid-template-columns: minmax(0, 1fr); }
+  /* Stacked, the photograph reads better first. */
+  .recipe__side { order: -1; }
+}
+
+.recipe__main > h4:first-child { margin-top: 0; }
+.recipe__side .nutrition { margin-top: 1.25rem; }
 
 .recipe__body h4 {
   font-family: var(--ui);
@@ -360,11 +365,18 @@ h1 {
 
   .photo-full {
     display: block !important;
-    float: right;
-    width: 2.5in;
-    height: 2.5in;
-    object-fit: cover;
-    margin: 0 0 0.5rem 0.5rem;
+    width: 100%;
+    max-width: 2.5in;
+    height: auto;
+    margin: 0 0 0.35rem;
+  }
+
+  /* Hold the two columns on paper: ingredients and method beside the photograph and its
+     nutrition label reads better than one long single column. */
+  .recipe__cols {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 2.6in;
+    gap: 0.4in;
   }
   .recipe__name { font-size: 16pt; }
   .nutrition table { max-width: 3.5in; }

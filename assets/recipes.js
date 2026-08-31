@@ -111,19 +111,19 @@ function card(recipe) {
       </span>
     </button>
     <div class="recipe__body" hidden>
-      ${full}
       ${recipe.description ? `<p class="recipe__desc">${escape(recipe.description)}</p>` : ''}
       <div class="recipe__cols">
-        <div>
+        <div class="recipe__main">
           <h4>Ingredients</h4>
           <ul>${(recipe.ingredients ?? []).map((i) => `<li>${escape(i)}</li>`).join('')}</ul>
-        </div>
-        <div>
           ${directions}
           ${extras}
         </div>
+        <div class="recipe__side">
+          ${full}
+          ${nutritionTable(recipe.nutrition)}
+        </div>
       </div>
-      ${nutritionTable(recipe.nutrition)}
     </div>`;
 
   const toggle = article.querySelector('.recipe__toggle');
