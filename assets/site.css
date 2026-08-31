@@ -304,12 +304,21 @@ h1 {
 }
 
 @media (max-width: 760px) {
-  .recipe__cols { grid-template-columns: minmax(0, 1fr); }
-  /* Stacked, the photograph reads better first. */
-  .recipe__side { order: -1; }
+  .recipe__cols { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
+
+  /* Stacked, the wanted order is photograph, description, ingredients, method, nutrition.
+     The side column has to dissolve for that: display: contents promotes the photograph and
+     the label to grid items in their own right, so each can be ordered independently rather
+     than travelling together as one block. */
+  .recipe__side { display: contents; }
+  .recipe__side .photo-full { order: -1; }
+  .recipe__main { order: 0; }
+  .recipe__side .nutrition { order: 1; margin-top: 0; }
 }
 
-.recipe__main > h4:first-child { margin-top: 0; }
+/* Whatever comes first in the column, description or heading, sits flush with the top. */
+.recipe__main > :first-child { margin-top: 0; }
+.recipe__desc { margin-bottom: 1rem; }
 .recipe__side .nutrition { margin-top: 1.25rem; }
 
 .recipe__body h4 {

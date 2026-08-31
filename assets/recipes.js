@@ -111,9 +111,9 @@ function card(recipe) {
       </span>
     </button>
     <div class="recipe__body" hidden>
-      ${recipe.description ? `<p class="recipe__desc">${escape(recipe.description)}</p>` : ''}
       <div class="recipe__cols">
         <div class="recipe__main">
+          ${recipe.description ? `<p class="recipe__desc">${escape(recipe.description)}</p>` : ''}
           <h4>Ingredients</h4>
           <ul>${(recipe.ingredients ?? []).map((i) => `<li>${escape(i)}</li>`).join('')}</ul>
           ${directions}
