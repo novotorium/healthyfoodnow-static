@@ -111,7 +111,7 @@ h1 {
   max-width: none;
 }
 
-@media (max-width: 620px) {
+@media screen and (max-width: 620px) {
   .page-farewell {
     background-image: url('veggie-bgd-mobile.jpg');
     background-attachment: scroll;
@@ -303,7 +303,7 @@ h1 {
   align-items: start;
 }
 
-@media (max-width: 760px) {
+@media screen and (max-width: 760px) {
   .recipe__cols { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
 
   /* Stacked, the wanted order is photograph, description, ingredients, method, nutrition.
@@ -375,19 +375,26 @@ h1 {
   .photo-full {
     display: block !important;
     width: 100%;
-    max-width: 2.5in;
+    max-width: 100%;
     height: auto;
-    margin: 0 0 0.35rem;
+    margin: 0;
   }
 
-  /* Hold the two columns on paper: ingredients and method beside the photograph and its
-     nutrition label reads better than one long single column. */
+  /* Text on the left, photograph and label on the right, as on screen. The side column is
+     sized to the label rather than the photograph, so nothing is left stranded. */
   .recipe__cols {
     display: grid !important;
-    grid-template-columns: minmax(0, 1fr) 2.6in;
-    gap: 0.4in;
+    grid-template-columns: minmax(0, 1fr) 2.2in;
+    gap: 0.3in;
+    align-items: start;
   }
+
+  /* Explicitly not display: contents here, whatever the narrow-viewport rules say. */
+  .recipe__side { display: block !important; }
+  .recipe__main { order: 0 !important; }
+  .recipe__side .photo-full { order: 0 !important; }
+  .recipe__side .nutrition { order: 0 !important; margin-top: 0.25in; }
   .recipe__name { font-size: 16pt; }
-  .nutrition table { max-width: 3.5in; }
+  .nutrition table { max-width: 100%; }
   .archive-head { text-align: left; margin-bottom: 1rem; }
 }
