@@ -277,6 +277,24 @@ h1 {
 /* Slightly muted, so a generic photo does not pass itself off as the dish. */
 .photo--generic { opacity: 0.82; }
 
+/* The full-size photograph. On screen the expanded card shows it at a readable size; in
+   print it is the one that appears, because the 192px card thumbnail would be soft at
+   2.5in. Lazy inside a hidden body, so it costs nothing until the card is opened. */
+.photo-full {
+  display: block;
+  width: 220px;
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin: 0.25rem 0 1rem;
+  float: right;
+  margin-left: 1.25rem;
+}
+
+@media (max-width: 520px) {
+  .photo-full { float: none; margin-left: 0; width: 100%; }
+}
+
 .recipe__heading { display: flex; flex-direction: column; min-width: 0; }
 .recipe__name { font-family: var(--serif); color: var(--teal); }
 .recipe__meta { font-size: 0.85rem; color: var(--muted); }
@@ -337,7 +355,17 @@ h1 {
     align-items: flex-start;
   }
 
-  .photo { width: 2.5in; height: 2.5in; }
+  /* The thumbnail goes; the full-size image is what prints. */
+  .photo { display: none !important; }
+
+  .photo-full {
+    display: block !important;
+    float: right;
+    width: 2.5in;
+    height: 2.5in;
+    object-fit: cover;
+    margin: 0 0 0.5rem 0.5rem;
+  }
   .recipe__name { font-size: 16pt; }
   .nutrition table { max-width: 3.5in; }
   .archive-head { text-align: left; margin-bottom: 1rem; }

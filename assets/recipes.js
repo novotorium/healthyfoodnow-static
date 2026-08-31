@@ -71,14 +71,23 @@ function nutritionTable(nutrition) {
 // so it stands in rather than an empty tile. Presentation only: recipes.json still records
 // image: null, which is the truth about what was archived.
 const PLACEHOLDER = 'assets/placeholder.jpg';
+const PLACEHOLDER_THUMB = 'images/thumbs/_placeholder.jpg';
 
 function card(recipe) {
-  // Decorative when generic, so no alt text claiming to depict this particular dish.
-  const image = recipe.image
-    ? `<img class="photo" src="${escape(recipe.image)}" alt="${escape(recipe.name)}"
-         width="280" height="280" loading="lazy">`
-    : `<img class="photo photo--generic" src="${PLACEHOLDER}" alt=""
-         width="280" height="280" loading="lazy">`;
+  // Two tiers. The card shows an 84px slot, so it gets a 192px thumbnail: full-size files
+  // averaged 80 KB for that slot, and 15.2 MB across the archive. The full image lives in
+  // the collapsed body, where lazy loading leaves it unfetched until the card opens, and
+  // print uses it at 2.5in where a thumbnail would be visibly soft.
+  //
+  // Generic stand-ins carry no alt text: they do not depict the dish.
+  const thumbSrc = recipe.thumb ?? (recipe.image ?? PLACEHOLDER_THUMB);
+  const isGeneric = !recipe.image;
+  const thumb = `<img class="photo${isGeneric ? ' photo--generic' : ''}"
+         src="${escape(thumbSrc)}" alt="${isGeneric ? '' : escape(recipe.name)}"
+         width="192" height="192" loading="lazy" decoding="async" fetchpriority="low">`;
+  const fullSrc = recipe.image ?? PLACEHOLDER;
+  const full = `<img class="photo-full${isGeneric ? ' photo--generic' : ''}"
+         src="${escape(fullSrc)}" alt="" width="460" height="460" loading="lazy">`;
 
   const extras = [
     recipe.notes ? `<h4>Notes</h4>${paragraphs(recipe.notes)}` : '',
@@ -95,13 +104,14 @@ function card(recipe) {
   article.id = `r-${recipe.slug}`;
   article.innerHTML = `
     <button class="recipe__toggle" type="button" aria-expanded="false">
-      ${image}
+      ${thumb}
       <span class="recipe__heading">
         <span class="recipe__name">${escape(recipe.name)}</span>
         <span class="recipe__meta">${escape(meta(recipe))}</span>
       </span>
     </button>
     <div class="recipe__body" hidden>
+      ${full}
       ${recipe.description ? `<p class="recipe__desc">${escape(recipe.description)}</p>` : ''}
       <div class="recipe__cols">
         <div>
@@ -144,6 +154,21 @@ function setAll(open) {
 function syncExpandAll() {
   const anyClosed = cards().some((a) => a.querySelector('.recipe__body').hidden);
   els.expandAll.textContent = anyClosed ? 'Expand all' : 'Collapse all';
+}
+
+// Resolves once every image has loaded, or on timeout: a slow connection should delay the
+// print dialog, not withhold it.
+function waitForImages(images, timeoutMs) {
+  const pending = [...images].filter((img) => !img.complete);
+  if (pending.length === 0) return Promise.resolve();
+  return Promise.race([
+    Promise.all(pending.map((img) => new Promise((resolve) => {
+      img.loading = 'eager';
+      img.addEventListener('load', resolve, { once: true });
+      img.addEventListener('error', resolve, { once: true });
+    }))),
+    new Promise((resolve) => setTimeout(resolve, timeoutMs)),
+  ]);
 }
 
 function render() {
@@ -190,8 +215,23 @@ async function start() {
       setAll(anyClosed);
       syncExpandAll();
     });
-    // Prints whatever the filters currently show, every card opened.
-    els.print.addEventListener('click', () => window.print());
+    // Prints whatever the filters currently show, every card opened. The full-size images
+    // are lazy and only start loading once a body is revealed, so printing has to wait for
+    // them or the sheets come out with blank frames.
+    els.print.addEventListener('click', async () => {
+      setAll(true);
+      syncExpandAll();
+      els.print.disabled = true;
+      const label = els.print.textContent;
+      els.print.textContent = 'Preparing…';
+      try {
+        await waitForImages(els.grid.querySelectorAll('.photo-full'), 15000);
+      } finally {
+        els.print.disabled = false;
+        els.print.textContent = label;
+      }
+      window.print();
+    });
 
     // Also covers Ctrl+P and the browser menu: printing must capture every recipe, not
     // only the ones a reader happened to open.
