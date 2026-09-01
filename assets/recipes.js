@@ -67,7 +67,7 @@ function nutritionTable(nutrition) {
     <table><tbody>${rows}</tbody></table></div>`;
 }
 
-// Nine recipes have no photo of their own. The site itself reused this one as a generic,
+// Seventeen recipes have no photo of their own. The site itself reused this one as a generic,
 // so it stands in rather than an empty tile. Presentation only: recipes.json still records
 // image: null, which is the truth about what was archived.
 const PLACEHOLDER = 'assets/placeholder.jpg';
