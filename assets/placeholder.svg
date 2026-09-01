@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 460" width="460" height="460"
+     role="img" aria-label="No photograph for this recipe">
+  <!-- Source of truth for the generic recipe placeholder. The rasters the site loads,
+       assets/placeholder.jpg and images/thumbs/_placeholder.jpg, are generated from this file
+       by tools/export/make-placeholder.sh. Edit here, never the JPEGs.
+
+       Replaces a fork silhouette that had been upscaled from a small source, so its edges were
+       visibly soft at the 460px an expanded card shows. Redrawn as geometry, so it is crisp at
+       any size.
+
+       Composed for the small end, not the large one: the card shows an 84 CSS px image, and at
+       that size thin crossed cutlery collapses into an unreadable smudge. A place setting seen
+       from above keeps three separate bold shapes with clear space between them, which still
+       reads at 84px and does not pretend to be a photograph of food.
+
+       Colours are the site's own tokens from assets/site.css: cream #fef8e8 warmed toward the
+       orange #fdb812 accent, plate in white, cutlery in the divider grey #dfe0e1 darkened
+       enough to hold contrast. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fbeec2"/>
+      <stop offset="0.55" stop-color="#fdf6dd"/>
+      <stop offset="1" stop-color="#fffdf5"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.42" cy="0.34" r="0.7">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="460" height="460" fill="url(#bg)"/>
+  <rect width="460" height="460" fill="url(#glow)"/>
+
+  <!-- plate -->
+  <g>
+    <!-- Fill is solid white and the rim stroke is as dark as the cutlery. A paler plate looked
+         right at 460px and all but vanished at 84px, where the stroke is under one pixel and
+         the white sits on cream with almost nothing between them. -->
+    <circle cx="232" cy="236" r="104" fill="#ffffff"/>
+    <circle cx="232" cy="236" r="104" fill="none" stroke="#b4b9bd" stroke-width="7"/>
+    <circle cx="232" cy="236" r="70"  fill="none" stroke="#c8ced3" stroke-width="5"/>
+  </g>
+
+  <!-- Cutlery. Both are drawn upright and centred on the origin, then placed and scaled, so
+       the geometry below reads at its natural size rather than in fractions. -->
+  <g fill="#b4b9bd">
+    <!-- fork, left of the plate -->
+    <g transform="translate(80 236) scale(0.52)">
+      <rect x="-50" y="-160" width="20" height="98" rx="10"/>
+      <rect x="-23" y="-160" width="20" height="98" rx="10"/>
+      <rect x="4"   y="-160" width="20" height="98" rx="10"/>
+      <rect x="31"  y="-160" width="20" height="98" rx="10"/>
+      <path d="M -50 -84 h 101 v 30 q 0 30 -24 38 h -53 q -24 -8 -24 -38 z"/>
+      <rect x="-16" y="-26" width="32" height="54" rx="16"/>
+      <rect x="-20" y="18" width="40" height="142" rx="20"/>
+    </g>
+
+    <!-- knife, right of the plate. Spine straight, cutting edge bulging, tip angled: one
+         path, because a rounded rectangle cannot carry a blade's taper. -->
+    <g transform="translate(384 236) scale(0.52)">
+      <path d="M -22 -10
+               L -22 -128
+               Q -22 -160 8 -156
+               Q 22 -124 22 -54
+               L 22 -10
+               Z"/>
+      <rect x="-26" y="-18" width="52" height="30" rx="10"/>
+      <rect x="-22" y="4" width="44" height="156" rx="22"/>
+    </g>
+  </g>
+</svg>
