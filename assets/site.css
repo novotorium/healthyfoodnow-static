@@ -274,11 +274,8 @@ h1 {
   background: var(--rule);
 }
 
-/* The generic stand-in is no longer muted. The 0.82 opacity existed when the stand-in was a
-   real photograph reused across recipes, where dimming it stopped it passing itself off as the
-   dish. The placeholder is now drawn artwork that could not be mistaken for a photograph, so
-   dimming it only cost contrast at the 84px a card shows. Kept as a hook for the markup. */
-.photo--generic { opacity: 1; }
+/* Slightly muted, so a generic photo does not pass itself off as the dish. */
+.photo--generic { opacity: 0.82; }
 
 /* The full-size photograph. On screen the expanded card shows it at a readable size; in
    print it is the one that appears, because the 192px card thumbnail would be soft at
